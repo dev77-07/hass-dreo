@@ -25,9 +25,6 @@ from .constant import (
     WINDLEVEL_KEY,
     HUMIDITY_KEY,
     TARGET_HUMIDITY_KEY,
-)
-
-from homeassistant.components.climate import (
     FAN_ON,
     FAN_OFF,
     FAN_AUTO,

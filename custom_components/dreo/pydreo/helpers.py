@@ -24,7 +24,7 @@ class Helpers:
     def req_headers(manager) -> dict:
         """Build header for api requests."""
         headers = {
-            "ua": "dreo/2.5.12 (sdk_gphone64_arm64;android 13;Scale/2.625)",
+            "ua": "dreo/2.8.1",
             "lang": "en",
             "content-type": "application/json; charset=UTF-8",
             "accept-encoding": "gzip",
@@ -158,6 +158,8 @@ class Helpers:
                     )
             else:
                 _LOGGER.debug("Unable to fetch %s%s", url, api)
+                if r.content:
+                    print(r.content)
         return response, status_code
 
     @staticmethod

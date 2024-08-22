@@ -59,6 +59,75 @@ TEMPOFFSET_KEY = "tempoffset"
 HUMIDITY_KEY = "rh"
 TARGET_HUMIDITY_KEY = "rhlevel"
 
+class HVACMode(StrEnum):
+    """HVAC mode for climate devices."""
+
+    # All activity disabled / Device is off/standby
+    OFF = "off"
+
+    # Heating
+    HEAT = "heat"
+
+    # Cooling
+    COOL = "cool"
+
+    # The device supports heating/cooling to a range
+    HEAT_COOL = "heat_cool"
+
+    # The temperature is set based on a schedule, learned behavior, AI or some
+    # other related mechanism. User is not able to adjust the temperature
+    AUTO = "auto"
+
+    # Device is in Dry/Humidity mode
+    DRY = "dry"
+
+    # Only the fan is on, not fan and another mode like cool
+    FAN_ONLY = "fan_only"
+
+# No preset is active
+PRESET_NONE = "none"
+
+# Device is running an energy-saving mode
+PRESET_ECO = "eco"
+
+# Device is in away mode
+PRESET_AWAY = "away"
+
+# Device turn all valve full up
+PRESET_BOOST = "boost"
+
+# Device is in comfort mode
+PRESET_COMFORT = "comfort"
+
+# Device is in home mode
+PRESET_HOME = "home"
+
+# Device is prepared for sleep
+PRESET_SLEEP = "sleep"
+
+# Device is reacting to activity (e.g. movement sensors)
+PRESET_ACTIVITY = "activity"
+
+# Possible fan state
+FAN_ON = "on"
+FAN_OFF = "off"
+FAN_AUTO = "auto"
+FAN_LOW = "low"
+FAN_MEDIUM = "medium"
+FAN_HIGH = "high"
+FAN_TOP = "top"
+FAN_MIDDLE = "middle"
+FAN_FOCUS = "focus"
+FAN_DIFFUSE = "diffuse"
+
+
+# Possible swing state
+SWING_ON = "on"
+SWING_OFF = "off"
+SWING_BOTH = "both"
+SWING_VERTICAL = "vertical"
+SWING_HORIZONTAL = "horizontal"
+
 
 DREO_API_URL_FORMAT = (
     "https://app-api-{0}.dreo-cloud.com"  # {0} is the 2 letter region code

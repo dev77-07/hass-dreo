@@ -20,9 +20,6 @@ from .constant import (
     HeaterOscillationAngles,
     TEMPERATURE_KEY,
     HUMIDITY_RANGE,
-)
-
-from homeassistant.components.climate import (
     SWING_ON,
     SWING_OFF,
     FAN_AUTO,
