@@ -24,7 +24,7 @@ class Helpers:
     def req_headers(manager) -> dict:
         """Build header for api requests."""
         headers = {
-            "ua": "dreo/2.8.1",
+            "ua": "dreo/2.8.2",
             "lang": "en",
             "content-type": "application/json; charset=UTF-8",
             "accept-encoding": "gzip",
