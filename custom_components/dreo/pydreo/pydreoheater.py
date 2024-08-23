@@ -23,16 +23,10 @@ from .constant import (
     CHILDLOCKON_KEY,
     TEMPOFFSET_KEY,
     FIXEDCONF_KEY,
-    HEATER_MODE_COOLAIR,
-    HEATER_MODE_HOTAIR,
-    HEATER_MODE_OFF,
-    HEATER_MODES,
     MODE_LEVEL_MAP,
     LEVEL_MODE_MAP,
     TemperatureUnit,
-    HeaterOscillationAngle,
-    FAN_ON,
-    FAN_OFF
+    HeaterOscillationAngle
 )
 
 from .pydreobasedevice import PyDreoBaseDevice

@@ -170,7 +170,7 @@ class DreoHeaterHA(DreoBaseDeviceHA, ClimateEntity):
         self._attr_swing_mode = self.device.device_definition.swing_modes[0]
         self._attr_swing_modes = self.device.device_definition.swing_modes
         self._attr_hvac_mode = HEATER_MODE_MAP[self.device.mode] if self.device.poweron else HVACMode.OFF
-        self._attr_preset_modes = pyDreoDevice.preset_modes
+        self._attr_preset_modes = pyDreoDevice.heat_levels #FIX THIS TO CONVERT TO STRINGS H1, H2, H3
         self._attr_hvac_modes = [HEATER_MODE_MAP[h]
                                  for h in self.device.device_definition.hvac_modes]
 

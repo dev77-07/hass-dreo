@@ -178,7 +178,6 @@ class PyDreo:  # pylint: disable=function-redefined
 
         # detail_keys = ['deviceType', 'deviceName', 'deviceStatus']
         for dev in devices:
-            # For now, let's keep this simple and just support fans...
             # Get the state of the device...separate API call...boo
             try:
                 model = dev.get("model", None)

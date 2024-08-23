@@ -59,30 +59,7 @@ TEMPOFFSET_KEY = "tempoffset"
 HUMIDITY_KEY = "rh"
 TARGET_HUMIDITY_KEY = "rhlevel"
 
-class HVACMode(StrEnum):
-    """HVAC mode for climate devices."""
 
-    # All activity disabled / Device is off/standby
-    OFF = "off"
-
-    # Heating
-    HEAT = "heat"
-
-    # Cooling
-    COOL = "cool"
-
-    # The device supports heating/cooling to a range
-    HEAT_COOL = "heat_cool"
-
-    # The temperature is set based on a schedule, learned behavior, AI or some
-    # other related mechanism. User is not able to adjust the temperature
-    AUTO = "auto"
-
-    # Device is in Dry/Humidity mode
-    DRY = "dry"
-
-    # Only the fan is on, not fan and another mode like cool
-    FAN_ONLY = "fan_only"
 
 # No preset is active
 PRESET_NONE = "none"
@@ -149,38 +126,29 @@ DREO_AUTH_REGION_EU = "EU"
 DREO_API_REGION_US = "us"
 DREO_API_REGION_EU = "eu"
 
-class FanMode(StrEnum):
+class PresetFanMode(StrEnum):
     """Fan mode for fan devices."""
-
-    # Normal mode
     NORMAL = "normal"
-
-    # Natural mode
     NATURAL = "natural"
-
-    # Auto mode
     AUTO = "auto"
-
-    # Sleep mode
     SLEEP = "sleep"
-
-    # Turbo mode
     TURBO = "turbo"
 
-class HeaterMode(StrEnum):
-    """Heater mode for heater devices."""
+class PresetHeaterMode(StrEnum):
+    H1 = "H1"
+    H2 = "H2"
+    H3 = "H3"
 
-    # Cool air mode
-    COOLAIR = "coolair"
+class HVACMode(StrEnum):
+    """HVAC mode for heaters and air conditioner devices."""
 
-    # Hot air mode
-    HOTAIR = "hotair"
-
-    # Eco mode
-    ECO = "eco"
-
-    # Off mode
     OFF = "off"
+    HEAT = "heat"
+    COOL = "cool"
+    AUTO = "auto"
+    DRY = "dry"
+    ECO = "eco"
+    FAN_ONLY = "fan_only"
     
 MODE_LEVEL_MAP = {
     "H1" : 1,

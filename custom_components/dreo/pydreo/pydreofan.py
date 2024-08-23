@@ -43,6 +43,32 @@ class PyDreoFan(PyDreoBaseDevice):
         """Initialize air devices."""
         super().__init__(device_definition, details, dreo)
 
+        self._speed_range = None
+        self._preset_modes = None
+
+        # Attempt to auto-detect the fan speed range
+        controlsConf = details.get("controlsConf", None)
+        if controlsConf is not None:
+            control = controlsConf.get("control", None)
+            if (control is not None):
+                for controlItem in control:
+                    if (controlItem is not None):
+                        if controlItem.get("type", None) == "Speed":
+                            print (controlItem)
+                            lowSpeed = controlItem.get("items", None)[0].get("value", None)
+                            highSpeed = controlItem.get("items", None)[1].get("value", None)
+                            print ( [lowSpeed, highSpeed] )
+                            self._speed_range = [lowSpeed, highSpeed]
+                            # TODO FIX LOGGING HERE
+                        if controlItem.get("type", None) == "Mode":
+                            self._preset_modes = [ None for _ in range(len(controlItem.get("items", None))) ]
+                            for modeItem in controlItem.get("items", None):
+                                text = modeItem.get("image", None).split("_")[1]
+                                value = modeItem.get("value", None)
+                                self._preset_modes[value-1] = text
+                            print (self._preset_modes)
+                            
+
         self._fan_speed = None
 
         self._wind_type = None
@@ -72,12 +98,12 @@ class PyDreoFan(PyDreoBaseDevice):
     @property
     def speed_range(self):
         """Get the speed range"""
-        return self._device_definition.range[SPEED_RANGE]
+        return self._speed_range
 
     @property
     def preset_modes(self):
         """Get the list of preset modes"""
-        return self._device_definition.preset_modes
+        return self._preset_modes
 
     @property
     def is_on(self):
@@ -98,10 +124,10 @@ class PyDreoFan(PyDreoBaseDevice):
     @fan_speed.setter
     def fan_speed(self, fan_speed: int):
         """Set the fan speed."""
-        if fan_speed < 1 or fan_speed > self._device_definition.range[SPEED_RANGE][1]:
+        if fan_speed < 1 or fan_speed > self._speed_range[1]:
             _LOGGER.error("Fan speed %s is not in the acceptable range: %s",
                           fan_speed,
-                          self._device_definition.range[SPEED_RANGE])
+                          self._speed_range)
             return
         self._send_command(WINDLEVEL_KEY, fan_speed)
 
@@ -136,11 +162,11 @@ class PyDreoFan(PyDreoBaseDevice):
 
         if value in self.preset_modes:
             self._send_command(
-                key, self._device_definition.preset_modes.index(value) + 1)
+                key, self.preset_modes.index(value) + 1)
         else:
             _LOGGER.error("Preset mode %s is not in the acceptable list: %s",
                           value,
-                          self._device_definition.preset_modes)
+                          self.preset_modes)
 
     @property
     def temperature(self):
