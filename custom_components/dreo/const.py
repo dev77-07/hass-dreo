@@ -12,3 +12,4 @@ DREO_MANAGER = "manager"
 DREO_PLATFORMS = "platforms"
 
 CONF_AUTO_RECONNECT = "auto_reconnect"
+

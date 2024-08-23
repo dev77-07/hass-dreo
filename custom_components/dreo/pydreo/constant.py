@@ -196,20 +196,6 @@ AC_ECO_LEVEL_MAP = {
     3 : "30%"
 }
 
-OSCANGLE_ANGLE_MAP = {
-    "Oscillate" : 0,
-    "60°" : 60,
-    "90°" : 90,
-    "120°" : 120
-}
-
-ANGLE_OSCANGLE_MAP = {
-    0: "Oscillate",
-    60 : "60°",
-    90 : "90°",
-    120 : "120°"
-}
-
 HORIZONTAL_OSCILLATION_KEY = "hoscon"
 HORIZONTAL_OSCILLATION_ANGLE_KEY = "hoscangle"
 
@@ -246,9 +232,23 @@ class OscillationMode(IntEnum):
     BOTH = 3
 
 # Heater oscillation modes
-class HeaterOscillationAngles(StrEnum):
-        """Possible Heater oscillation angles"""
-        OSC = "Oscillate"
-        SIXTY = "60°",
-        NINETY = "90°",
-        ONE_TWENTY = "120°"
+class HeaterOscillationAngle(IntEnum):
+    """Possible Heat"er oscillation angles"""
+    OSC = 0,
+    SIXTY = 60,
+    NINETY = 90,
+    ONE_TWENTY = 120
+
+class ACMode(IntEnum):
+    """Possible AC modes."""
+    COOL = 1,
+    DRY = 2,
+    FAN = 3,
+    ECO = 5
+
+class ACFanMode(IntEnum):
+    """Possible AC Fan modes."""
+    LOW = 1,
+    MEDIUM = 2,
+    HIGH = 3,
+    AUTO = 4,

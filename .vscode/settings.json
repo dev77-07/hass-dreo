@@ -1,19 +1,2 @@
 {
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    "python.linting.pylintArgs": [
-        "--generated-members", "websockets.*"
-    ],
-    "python.analysis.diagnosticSeverityOverrides": 
-    {   "use-before-def": "none"
-    },
-    "python.testing.pytestArgs": [
-        "."
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "pylint.path": [
-        "tests/pydreo",
-        "custom_components/dreo"
-    ]
 }

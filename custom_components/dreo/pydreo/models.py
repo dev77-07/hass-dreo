@@ -17,8 +17,7 @@ from .constant import (
     TEMP_RANGE,
     TARGET_TEMP_RANGE,
     TARGET_TEMP_RANGE_ECO,
-    HeaterOscillationAngles,
-    TEMPERATURE_KEY,
+    HeaterOscillationAngle,
     HUMIDITY_RANGE,
     SWING_ON,
     SWING_OFF,
@@ -113,27 +112,27 @@ SUPPORTED_FANS = {
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
         range = {SPEED_RANGE: (1, 12)}
     ),    
-    "DR-HAF001S": DreoDeviceDetails(
+    "DR-HAF002S": DreoDeviceDetails(
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
         range = {SPEED_RANGE: (1, 4)}
     ),
-    "DR-HAF003S": DreoDeviceDetails(
+    "DR-HAF005S": DreoDeviceDetails(
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
         range = {SPEED_RANGE: (1, 8)}
     ),
-    "DR-HAF004S": DreoDeviceDetails(
+    "DR-HAF006S": DreoDeviceDetails(
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
         range = {SPEED_RANGE: (1, 9)}
-    ),
-    "DR-HPF002S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 8)}
     ),
     "DR-HPF001S": DreoDeviceDetails(
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        range = {SPEED_RANGE: (1, 8)}
+    ),
+    "DR-HPF003S": DreoDeviceDetails(
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
         range = {SPEED_RANGE: (1, 9)}
     ),
-   "DR-HCF001S": DreoDeviceDetails(
+   "DR-HCF002S": DreoDeviceDetails(
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
         range = {SPEED_RANGE: (1, 12)}
     )
@@ -157,8 +156,10 @@ SUPPORTED_HEATERS = {
             ECOLEVEL_RANGE: (41,95)
         },
         hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [HeaterOscillationAngles.OSC, HeaterOscillationAngles.SIXTY, HeaterOscillationAngles.NINETY,
-                       HeaterOscillationAngles.ONE_TWENTY]
+        swing_modes = [HeaterOscillationAngle.OSC, 
+                       HeaterOscillationAngle.SIXTY, 
+                       HeaterOscillationAngle.NINETY,
+                       HeaterOscillationAngle.ONE_TWENTY]
     ),
     "DR-HSH009AS": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
@@ -167,8 +168,10 @@ SUPPORTED_HEATERS = {
             ECOLEVEL_RANGE: (41, 95)
         },
         hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes=[HeaterOscillationAngles.OSC, HeaterOscillationAngles.SIXTY, HeaterOscillationAngles.NINETY,
-                     HeaterOscillationAngles.ONE_TWENTY]
+        swing_modes=[HeaterOscillationAngle.OSC, 
+                     HeaterOscillationAngle.SIXTY, 
+                     HeaterOscillationAngle.NINETY,
+                     HeaterOscillationAngle.ONE_TWENTY]
     ),
     "WH719S": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
@@ -177,8 +180,10 @@ SUPPORTED_HEATERS = {
             ECOLEVEL_RANGE: (41,95)
         },
         hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [HeaterOscillationAngles.OSC, HeaterOscillationAngles.SIXTY, HeaterOscillationAngles.NINETY,
-                       HeaterOscillationAngles.ONE_TWENTY]
+        swing_modes = [HeaterOscillationAngle.OSC,
+                       HeaterOscillationAngle.SIXTY, 
+                       HeaterOscillationAngle.NINETY,
+                       HeaterOscillationAngle.ONE_TWENTY]
     ),
     "WH739S": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
@@ -187,8 +192,10 @@ SUPPORTED_HEATERS = {
             ECOLEVEL_RANGE: (41,95)
         },
         hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [HeaterOscillationAngles.OSC, HeaterOscillationAngles.SIXTY, HeaterOscillationAngles.NINETY,
-                       HeaterOscillationAngles.ONE_TWENTY]
+        swing_modes = [HeaterOscillationAngle.OSC, 
+                       HeaterOscillationAngle.SIXTY, 
+                       HeaterOscillationAngle.NINETY,
+                       HeaterOscillationAngle.ONE_TWENTY]
     )
 }
 

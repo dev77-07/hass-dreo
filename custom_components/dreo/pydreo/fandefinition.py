@@ -6,7 +6,7 @@ class OscillationSupport(Enum):
     BOTH = 2
 
 
-class HeaterOscillationAngles(Enum):
+class HeaterOscillationAngle(Enum):
     OSC = 0
     SIXTY = 60
     NINETY = 90
@@ -29,7 +29,7 @@ class PyDreoHeaterDefinition():
                 preset_modes: list, 
                 heat_range: range,
                 ecolevel_range: range,
-                oscillation_support: HeaterOscillationAngles):
+                oscillation_support: HeaterOscillationAngle):
                 self.preset_modes = preset_modes
                 self.heat_range = heat_range
                 self.ecolevel_range = ecolevel_range

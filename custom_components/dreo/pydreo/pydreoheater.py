@@ -30,7 +30,7 @@ from .constant import (
     MODE_LEVEL_MAP,
     LEVEL_MODE_MAP,
     TemperatureUnit,
-    HeaterOscillationAngles,
+    HeaterOscillationAngle,
     FAN_ON, 
     FAN_OFF
 )
@@ -224,7 +224,7 @@ class PyDreoHeater(PyDreoBaseDevice):
             return
 
     @property
-    def oscangle(self) -> HeaterOscillationAngles:
+    def oscangle(self) -> HeaterOscillationAngle:
         return self._oscangle
         
     @oscangle.setter

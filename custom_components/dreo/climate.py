@@ -6,7 +6,7 @@
 # pylint: disable=W0613
 
 from typing import Any
-from dataclasses import dataclass
+from enum import StrEnum
 import logging
 
 from .haimports import *  # pylint: disable=W0401,W0614
@@ -22,13 +22,9 @@ from .pydreo import (
     MODE_LEVEL_MAP,
     LEVEL_MODE_MAP,
     ECOLEVEL_RANGE,
-    ANGLE_OSCANGLE_MAP,
-    OSCANGLE_ANGLE_MAP,
-    TEMPERATURE_KEY,
     TEMP_RANGE,
-    TARGET_TEMP_RANGE,
-    TARGET_TEMP_RANGE_ECO,
     HUMIDITY_RANGE,
+    ACMode
 )
 
 from .const import (
@@ -36,6 +32,15 @@ from .const import (
     DOMAIN,
     DREO_MANAGER,
 )
+
+# Heater oscillation modes
+class HeaterOscillationAngle(StrEnum):
+    """Possible Heater oscillation angles"""
+    OSC = "Oscillate"
+    SIXTY = "60°",
+    NINETY = "90°",
+    ONE_TWENTY = "120°"
+
 
 HVAC_MODE_MAP = {
     HVACMode.OFF: HEATER_MODE_OFF,
@@ -67,22 +72,30 @@ HVAC_AC_MODE_MAP = {
     HVACMode.FAN_ONLY: 3,
 }
 
-from homeassistant.components.climate import (
-    SWING_ON,
-    SWING_OFF,
-    FAN_AUTO,
-    FAN_LOW,
-    FAN_MEDIUM,
-    FAN_HIGH,
-    PRESET_ECO,
-    PRESET_NONE,
-    HVACMode,
-)
+AC_FAN_MODE_MAP = {
+    1: FAN_LOW,
+    2: FAN_MEDIUM,
+    3: FAN_HIGH,
+    4: FAN_AUTO,
+    FAN_LOW: 1,
+    FAN_MEDIUM: 2,
+    FAN_HIGH: 3,
+    FAN_AUTO: 4,
+}
 
-from .pydreo.pydreoac import (
-    DREO_AC_MODE_COOL,
-    DREO_AC_MODE_DRY,
-)
+OSCANGLE_ANGLE_MAP = {
+    "Oscillate" : 0,
+    "60°" : 60,
+    "90°" : 90,
+    "120°" : 120
+}
+
+ANGLE_OSCANGLE_MAP = {
+    0: "Oscillate",
+    60 : "60°",
+    90 : "90°",
+    120 : "120°"
+}
 
 _LOGGER = logging.getLogger(LOGGER)
 
@@ -476,7 +489,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
         """Set the preset mode of the device."""
         _LOGGER.debug("DreoACHA:set_preset_mode(%s) --> %s", self.device.name, preset_mode)
         if preset_mode == PRESET_ECO:
-            self.device.mode = DREO_AC_MODE_COOL
+            self.device.mode = ACMode.Cool
             self.device.preset_mode = preset_mode
         else:
             self.device.preset_mode = PRESET_NONE
@@ -496,9 +509,9 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
     def supported_features(self) -> int:
         """Return the list of supported features."""
         supported_features = 0
-        if self.device.target_temperature is not None and self.device.mode == DREO_AC_MODE_COOL:
+        if self.device.target_temperature is not None and self.device.mode == ACMode.COOL:
             supported_features |= ClimateEntityFeature.TARGET_TEMPERATURE
-        if (self.device.preset_mode is not None or self.device.device_definition.preset_modes is not None) and self.device.mode == DREO_AC_MODE_COOL:
+        if (self.device.preset_mode is not None or self.device.device_definition.preset_modes is not None) and self.device.mode == ACMode.COOL:
             supported_features |= ClimateEntityFeature.PRESET_MODE
         if self.device.oscon is not None:
             supported_features |= ClimateEntityFeature.SWING_MODE
@@ -507,7 +520,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
         if self.device.poweron is not None:
             supported_features |= ClimateEntityFeature.TURN_OFF
             supported_features |= ClimateEntityFeature.TURN_ON
-        if self.device.target_humidity is not None and self.device.mode == DREO_AC_MODE_DRY:
+        if self.device.target_humidity is not None and self.device.mode == ACMode.DRY:
             supported_features |= ClimateEntityFeature.TARGET_HUMIDITY
         
         _LOGGER.debug("DreoACHA:supported_features(%s): %s (device.mode: %s)", self, supported_features, self.device.mode)

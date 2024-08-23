@@ -8,8 +8,10 @@ There are a few steps you need to follow to get this all to work...
 
 ### Emulator Setup
 
+1. Install Android Studio
 1. Create an emulator using a non-Google Play Store version
 1. Download a Dreo app APK from any of the various Google Play Store downloaders
+1. Install the APK on the emulator using the adb command
 
 ### Frida to Defeat Certificate Pinning - Part 1
 The Dreo app uses certificate pinning. You can use *Frida* to get around that.  Full instructions are here: https://httptoolkit.com/blog/frida-certificate-pinning. The following are the steps I followed:
