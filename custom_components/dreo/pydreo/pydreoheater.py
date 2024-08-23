@@ -74,9 +74,7 @@ class PyDreoHeater(PyDreoBaseDevice):
 
     def __repr__(self):
         # Representation string of object.
-        return "<{0}:{1}:{2}>".format(
-            self.__class__.__name__, self._device_id, self._name
-        )
+        return f"<{self.__class__.__name__}:{self._device_id}:{self._name}>"
 
     @property
     def poweron(self):
@@ -124,7 +122,8 @@ class PyDreoHeater(PyDreoBaseDevice):
         """Set the heat level."""
         _LOGGER.debug("PyDreoHeater:htalevel.setter(%s, %s)",
                       self.name, htalevel)
-        if htalevel < self._device_definition.range[HEAT_RANGE][0] or htalevel > self._device_definition.range[HEAT_RANGE][1]:
+        if (htalevel < self._device_definition.range[HEAT_RANGE][0] or
+            htalevel > self._device_definition.range[HEAT_RANGE][1]):
             _LOGGER.error("Heat level %s is not in the acceptable range: %s",
                           htalevel,
                           self._device_definition.range[HEAT_RANGE])
@@ -165,6 +164,7 @@ class PyDreoHeater(PyDreoBaseDevice):
 
     @preset_mode.setter
     def preset_mode(self, level: str) -> None:
+        """Set the preset mode"""
         _LOGGER.debug("PyDreoHeater:set_preset_mode(%s)", level)
         if level in self.preset_modes:
             # Don't need self.mode = HEATER_MODE_HOTAIR because the htalevel setter will set the mode
@@ -176,6 +176,7 @@ class PyDreoHeater(PyDreoBaseDevice):
 
     @mode.setter
     def mode(self, mode: str) -> None:
+        """Set the mode."""
         _LOGGER.debug("PyDreoHeater:mode(%s) --> %s", self.name, mode)
         self._send_command(MODE_KEY, mode)
 
@@ -228,6 +229,7 @@ class PyDreoHeater(PyDreoBaseDevice):
 
     @property
     def oscangle(self) -> HeaterOscillationAngle:
+        """Get the oscillation angle."""
         return self._oscangle
 
     @oscangle.setter

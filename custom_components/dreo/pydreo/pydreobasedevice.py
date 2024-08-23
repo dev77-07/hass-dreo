@@ -1,3 +1,4 @@
+"""Base class for all Dreo devices."""
 import threading
 import logging
 from typing import Dict
@@ -55,9 +56,7 @@ class PyDreoBaseDevice(object):
 
     def __repr__(self):
         # Representation string of object.
-        return "<{0}:{1}:{2}>".format(
-            self.__class__.__name__, self._device_id, self._name
-        )
+        return f"<{self.__class__.__name__}:{self._device_id}:{self._name}>"
 
     def get_server_update_key_value(self, message: dict, key: str):
         """Helper method to get values from a WebSocket update in a safe way."""
@@ -83,11 +82,11 @@ class PyDreoBaseDevice(object):
     def handle_server_update(self, message: dict):
         """Method to process WebSocket message"""
 
-    def _send_command(self, commandKey: str, value):
+    def _send_command(self, command_key: str, value):
         """Send a command to the Dreo servers via WebSocket."""
         _LOGGER.debug("pyDreoBaseDevice(%s):send_command: %s-> %s",
-                      self, commandKey, value)
-        params: dict = {commandKey: value}
+                      self, command_key, value)
+        params: dict = {command_key: value}
         self._dreo.send_command(self, params)
 
     def get_state_update_value(self, state: dict, key: str):
@@ -196,9 +195,9 @@ class PyDreoBaseDevice(object):
         """Does this device support a given feature"""
         _LOGGER.debug("Checking if %s supports feature %s", self, feature)
         property_name = feature
-        if (hasattr(self, property_name)):
+        if hasattr(self, property_name):
             val = getattr(self, property_name)
-            if (val is not None):
+            if val is not None:
                 _LOGGER.debug("%s found attribute for %s --> %s",
                               self, property_name, val)
                 return True

@@ -374,7 +374,7 @@ class PyDreoFan(PyDreoBaseDevice):
     @property
     def adaptive_brightness(self) -> bool:
         """Is the display always on?"""
-        if (self._light_sensor_on is not None):
+        if self._light_sensor_on is not None:
             return self._light_sensor_on
         else:
             return None
@@ -417,14 +417,14 @@ class PyDreoFan(PyDreoBaseDevice):
     @property
     def horizontal_angle(self) -> int:
         """Get the current fixed horizontal angle."""
-        if (self._fixed_conf is not None):
+        if self._fixed_conf is not None:
             return self._fixed_conf.split(",")[1]
 
     @horizontal_angle.setter
     def horizontal_angle(self, value: int) -> None:
         """Set the horizontal angle."""
         _LOGGER.debug("PyDreoFan:horizontal_angle.setter")
-        if (self._fixed_conf is not None):
+        if self._fixed_conf is not None:
             # Note that HA seems to send this in as a float, so we need to convert to int just in case
             self._send_command(
                 FIXEDCONF_KEY, f"{self._fixed_conf.split(',')[0]},{int(value)}")

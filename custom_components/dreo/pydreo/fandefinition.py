@@ -1,13 +1,16 @@
+"""Definition of Dreo devices."""
 from enum import Enum
 
 
 class OscillationSupport(Enum):
+    """Oscillation support."""
     NONE = 0
     HORIZONTAL = 1
     BOTH = 2
 
 
 class HeaterOscillationAngle(Enum):
+    """Heater oscillation angles."""
     OSC = 0
     SIXTY = 60
     NINETY = 90
@@ -15,6 +18,7 @@ class HeaterOscillationAngle(Enum):
 
 
 class PyDreoFanDefinition():
+    """Definition of a Dreo fan."""
 
     def __init__(self,
                  preset_modes: list,
@@ -26,6 +30,7 @@ class PyDreoFanDefinition():
 
 
 class PyDreoHeaterDefinition():
+    """Definition of a Dreo heater."""
 
     def __init__(self,
                  preset_modes: list,
@@ -39,6 +44,7 @@ class PyDreoHeaterDefinition():
 
 
 class PyDreoACDefinition():
+    """Definition of a Dreo AC."""
 
     def __init__(self,
                  preset_modes: list,
