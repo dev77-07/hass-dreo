@@ -108,18 +108,6 @@ PRESET_SLEEP = "sleep"
 # Device is reacting to activity (e.g. movement sensors)
 PRESET_ACTIVITY = "activity"
 
-# Possible fan state
-FAN_ON = "on"
-FAN_OFF = "off"
-FAN_AUTO = "auto"
-FAN_LOW = "low"
-FAN_MEDIUM = "medium"
-FAN_HIGH = "high"
-FAN_TOP = "top"
-FAN_MIDDLE = "middle"
-FAN_FOCUS = "focus"
-FAN_DIFFUSE = "diffuse"
-
 
 # Possible swing state
 SWING_ON = "on"
@@ -161,16 +149,39 @@ DREO_AUTH_REGION_EU = "EU"
 DREO_API_REGION_US = "us"
 DREO_API_REGION_EU = "eu"
 
-FAN_MODE_NORMAL = "normal"
-FAN_MODE_NATURAL = "natural"
-FAN_MODE_AUTO = "auto"
-FAN_MODE_SLEEP = "sleep"
-FAN_MODE_TURBO = "turbo"
-HEATER_MODE_COOLAIR = "coolair"
-HEATER_MODE_HOTAIR = "hotair"
-HEATER_MODE_ECO = "eco"
-HEATER_MODE_OFF = "off"
+class FanMode(StrEnum):
+    """Fan mode for fan devices."""
 
+    # Normal mode
+    NORMAL = "normal"
+
+    # Natural mode
+    NATURAL = "natural"
+
+    # Auto mode
+    AUTO = "auto"
+
+    # Sleep mode
+    SLEEP = "sleep"
+
+    # Turbo mode
+    TURBO = "turbo"
+
+class HeaterMode(StrEnum):
+    """Heater mode for heater devices."""
+
+    # Cool air mode
+    COOLAIR = "coolair"
+
+    # Hot air mode
+    HOTAIR = "hotair"
+
+    # Eco mode
+    ECO = "eco"
+
+    # Off mode
+    OFF = "off"
+    
 MODE_LEVEL_MAP = {
     "H1" : 1,
     "H2" : 2,
@@ -182,13 +193,6 @@ LEVEL_MODE_MAP = {
     2 : "H2",
     3 : "H3"
 }
-
-HEATER_MODES = [
-    HEATER_MODE_COOLAIR,
-    HEATER_MODE_HOTAIR,
-    HEATER_MODE_ECO,
-    HEATER_MODE_OFF
-]
 
 AC_ECO_LEVEL_MAP = {
     1 : "10%",
