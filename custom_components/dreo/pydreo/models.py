@@ -30,11 +30,12 @@ from .constant import (
     HVACMode,
 )
 
+
 @dataclass
 class DreoDeviceDetails:
     """Represents a Dreo device model and capabilities"""
 
-    preset_modes: list[str] 
+    preset_modes: list[str]
     """List of possible preset mode names"""
 
     range: dict
@@ -46,10 +47,10 @@ class DreoDeviceDetails:
     swing_modes: list[str]
     """List of possible swing modes"""
 
-    def __init__(self, preset_modes: list[str], range: dict, hvac_modes: list[str] = None,
+    def __init__(self, preset_modes: list[str], deviceRanges: dict, hvac_modes: list[str] = None,
                  swing_modes: list[str] = None, fan_modes: list[str] = None):
         self.preset_modes = preset_modes
-        self.range = range
+        self.range = deviceRanges
         self.hvac_modes = hvac_modes
         self.swing_modes = swing_modes
         self.fan_modes = fan_modes
@@ -57,84 +58,103 @@ class DreoDeviceDetails:
 
 SUPPORTED_FANS = {
     "DR-HAF001S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 4)}
-    ),    
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 4)}
+    ),
     "DR-HAF003S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 8)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 8)}
     ),
     "DR-HAF004S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 9)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
     ),
     "DR-HPF002S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 8)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 8)}
     ),
     "DR-HPF004S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 9)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
     ),
     "DR-HPF005S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 9)}
-    ),    
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
+    ),
     "DR-HTF001S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 6)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 6)}
     ),
     "DR-HTF002S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 6)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 6)}
     ),
     "DR-HTF004S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 12)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 12)}
     ),
     "DR-HTF005S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 9)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
     ),
     "DR-HTF007S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 4)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 4)}
     ),
     "DR-HTF008S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 5)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 5)}
     ),
     "DR-HTF009S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 9)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
     ),
     "DR-HTF010S": DreoDeviceDetails(
         preset_modes=[FAN_MODE_NORMAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 12)}
-    ),    
+        deviceRanges={SPEED_RANGE: (1, 12)}
+    ),
     "DR-HAF002S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 4)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 4)}
     ),
     "DR-HAF005S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 8)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 8)}
     ),
     "DR-HAF006S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 9)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
     ),
     "DR-HPF001S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 8)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 8)}
     ),
     "DR-HPF003S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
-        range = {SPEED_RANGE: (1, 9)}
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO, FAN_MODE_TURBO],
+        deviceRanges={SPEED_RANGE: (1, 9)}
     ),
-   "DR-HCF002S": DreoDeviceDetails(
-        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL, FAN_MODE_SLEEP, FAN_MODE_AUTO],
-        range = {SPEED_RANGE: (1, 12)}
+    "DR-HCF002S": DreoDeviceDetails(
+        preset_modes=[FAN_MODE_NORMAL, FAN_MODE_NATURAL,
+                      FAN_MODE_SLEEP, FAN_MODE_AUTO],
+        deviceRanges={SPEED_RANGE: (1, 12)}
     )
 }
 
@@ -142,66 +162,71 @@ SUPPORTED_FANS = {
 SUPPORTED_HEATERS = {
     "DR-HSH004S": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
-        range={
-            HEAT_RANGE: (1,3),
-            ECOLEVEL_RANGE: (41,85)
+        deviceRanges={
+            HEAT_RANGE: (1, 3),
+            ECOLEVEL_RANGE: (41, 85)
         },
-        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [SWING_OFF, SWING_ON]
+        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR,
+                    HEATER_MODE_ECO, HEATER_MODE_OFF],
+        swing_modes=[SWING_OFF, SWING_ON]
     ),
     "DR-HSH009S": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
-        range={
-            HEAT_RANGE: (1,3),
-            ECOLEVEL_RANGE: (41,95)
-        },
-        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [HeaterOscillationAngle.OSC, 
-                       HeaterOscillationAngle.SIXTY, 
-                       HeaterOscillationAngle.NINETY,
-                       HeaterOscillationAngle.ONE_TWENTY]
-    ),
-    "DR-HSH009AS": DreoDeviceDetails(
-        preset_modes=["H1", "H2", "H3"],
-        range={
+        deviceRanges={
             HEAT_RANGE: (1, 3),
             ECOLEVEL_RANGE: (41, 95)
         },
-        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes=[HeaterOscillationAngle.OSC, 
-                     HeaterOscillationAngle.SIXTY, 
+        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR,
+                    HEATER_MODE_ECO, HEATER_MODE_OFF],
+        swing_modes=[HeaterOscillationAngle.OSC,
+                     HeaterOscillationAngle.SIXTY,
+                     HeaterOscillationAngle.NINETY,
+                     HeaterOscillationAngle.ONE_TWENTY]
+    ),
+    "DR-HSH009AS": DreoDeviceDetails(
+        preset_modes=["H1", "H2", "H3"],
+        deviceRanges={
+            HEAT_RANGE: (1, 3),
+            ECOLEVEL_RANGE: (41, 95)
+        },
+        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR,
+                    HEATER_MODE_ECO, HEATER_MODE_OFF],
+        swing_modes=[HeaterOscillationAngle.OSC,
+                     HeaterOscillationAngle.SIXTY,
                      HeaterOscillationAngle.NINETY,
                      HeaterOscillationAngle.ONE_TWENTY]
     ),
     "WH719S": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
-        range={
-            HEAT_RANGE: (1,3),
-            ECOLEVEL_RANGE: (41,95)
+        deviceRanges={
+            HEAT_RANGE: (1, 3),
+            ECOLEVEL_RANGE: (41, 95)
         },
-        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [HeaterOscillationAngle.OSC,
-                       HeaterOscillationAngle.SIXTY, 
-                       HeaterOscillationAngle.NINETY,
-                       HeaterOscillationAngle.ONE_TWENTY]
+        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR,
+                    HEATER_MODE_ECO, HEATER_MODE_OFF],
+        swing_modes=[HeaterOscillationAngle.OSC,
+                     HeaterOscillationAngle.SIXTY,
+                     HeaterOscillationAngle.NINETY,
+                     HeaterOscillationAngle.ONE_TWENTY]
     ),
     "WH739S": DreoDeviceDetails(
         preset_modes=["H1", "H2", "H3"],
-        range={
-            HEAT_RANGE: (1,3),
-            ECOLEVEL_RANGE: (41,95)
+        deviceRanges={
+            HEAT_RANGE: (1, 3),
+            ECOLEVEL_RANGE: (41, 95)
         },
-        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR, HEATER_MODE_ECO, HEATER_MODE_OFF],
-        swing_modes = [HeaterOscillationAngle.OSC, 
-                       HeaterOscillationAngle.SIXTY, 
-                       HeaterOscillationAngle.NINETY,
-                       HeaterOscillationAngle.ONE_TWENTY]
+        hvac_modes=[HEATER_MODE_COOLAIR, HEATER_MODE_HOTAIR,
+                    HEATER_MODE_ECO, HEATER_MODE_OFF],
+        swing_modes=[HeaterOscillationAngle.OSC,
+                     HeaterOscillationAngle.SIXTY,
+                     HeaterOscillationAngle.NINETY,
+                     HeaterOscillationAngle.ONE_TWENTY]
     )
 }
 
 SUPPORTED_ACS = {
     "DR-HAC005S": DreoDeviceDetails(
-        range={
+        deviceRanges={
             TEMP_RANGE: (60, 95),
             TARGET_TEMP_RANGE: (64, 86),
             TARGET_TEMP_RANGE_ECO: (75, 86),
@@ -216,8 +241,8 @@ SUPPORTED_ACS = {
     )
 }
 
-SUPPORTED_DEVICES = [ 
-    ("PyDreoFan", SUPPORTED_FANS), 
+SUPPORTED_DEVICES = [
+    ("PyDreoFan", SUPPORTED_FANS),
     ("PyDreoHeater", SUPPORTED_HEATERS),
     ("PyDreoAc", SUPPORTED_ACS)
 ]

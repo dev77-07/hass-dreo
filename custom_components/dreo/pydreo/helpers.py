@@ -96,7 +96,7 @@ class Helpers:
                         '(?<=authKey": ")|',
                         '(?<=uuid": ")|',
                         '(?<=cid": ")|',
-                        '(?<=authorization": "))',               
+                        '(?<=authorization": "))',
                         '[^"]+',
                     )
                 ),
@@ -121,10 +121,12 @@ class Helpers:
             _LOGGER.debug("[%s] calling '%s' api", method, api)
             _LOGGER.debug("API call URL: \n  %s%s", url, api)
             _LOGGER.debug(
-                "API call headers: \n  %s", Helpers.redactor(json.dumps(headers))
+                "API call headers: \n  %s", Helpers.redactor(
+                    json.dumps(headers))
             )
             _LOGGER.debug(
-                "API call json: \n  %s", Helpers.redactor(json.dumps(json_object))
+                "API call json: \n  %s", Helpers.redactor(
+                    json.dumps(json_object))
             )
             if method.lower() == "get":
                 r = requests.get(

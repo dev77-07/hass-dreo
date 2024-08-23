@@ -130,11 +130,13 @@ class PyDreoFan(PyDreoBaseDevice):
         elif self._wind_mode is not None:
             key = WIND_MODE_KEY
         else:
-            _LOGGER.error("Attempting to set preset_mode on a device that doesn't support.")
+            _LOGGER.error(
+                "Attempting to set preset_mode on a device that doesn't support.")
             return
 
         if value in self.preset_modes:
-            self._send_command(key, self._device_definition.preset_modes.index(value) + 1)
+            self._send_command(
+                key, self._device_definition.preset_modes.index(value) + 1)
         else:
             _LOGGER.error("Preset mode %s is not in the acceptable list: %s",
                           value,
@@ -172,7 +174,6 @@ class PyDreoFan(PyDreoBaseDevice):
 
     @oscillating.setter
     def oscillating(self, value: bool) -> None:
-
         """Enable or disable oscillation"""
         _LOGGER.debug("PyDreoFan:oscillating.setter")
 
@@ -184,7 +185,8 @@ class PyDreoFan(PyDreoBaseDevice):
         elif self._osc_mode is not None:
             self._osc_mode = OscillationMode.HORIZONTAL if value else OscillationMode.OFF
         else:
-            _LOGGER.error("Attempting to set oscillating on a device that doesn't support.")
+            _LOGGER.error(
+                "Attempting to set oscillating on a device that doesn't support.")
             return
 
     @property
@@ -244,9 +246,11 @@ class PyDreoFan(PyDreoBaseDevice):
 
     def set_horizontal_oscillation_angle(self, angle: int) -> None:
         """Set the horizontal oscillation angle."""
-        _LOGGER.debug("PyDreoAirCirculatorFan:set_horizontal_oscillation_angle")
+        _LOGGER.debug(
+            "PyDreoAirCirculatorFan:set_horizontal_oscillation_angle")
         if not self._horizontally_oscillating is None:
-            _LOGGER.error("This device does not support horizontal oscillation")
+            _LOGGER.error(
+                "This device does not support horizontal oscillation")
             return
         self._send_command(HORIZONTAL_OSCILLATION_ANGLE_KEY, angle)
 
@@ -273,11 +277,13 @@ class PyDreoFan(PyDreoBaseDevice):
             bottom_angle = int(self._cruise_conf.split(",")[2])
             # 30 deg is the minimum top-bottom and left-right difference for the tested fan (DR-HAF003S)
             if value - bottom_angle < MIN_OSC_ANGLE_DIFFERENCE:
-                raise ValueError(f"Top angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} greater than bottom angle")
+                raise ValueError(
+                    f"Top angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} greater than bottom angle")
             cruise_conf_values = self._cruise_conf.split(',')
             # Note that HA seems to send this in as a float, so we need to convert to int just in case
             cruise_conf_values[0] = int(value)
-            self._send_command(CRUISECONF_KEY, ','.join(map(str, cruise_conf_values)))
+            self._send_command(CRUISECONF_KEY, ','.join(
+                map(str, cruise_conf_values)))
 
     @property
     def vertical_osc_angle_bottom(self) -> int:
@@ -293,11 +299,13 @@ class PyDreoFan(PyDreoBaseDevice):
             top_angle = int(self._cruise_conf.split(",")[0])
             # 30 deg is the minimum top-bottom and left-right difference for the tested fan (DR-HAF003S)
             if top_angle - value < MIN_OSC_ANGLE_DIFFERENCE:
-                raise ValueError(f"Bottom angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} less than top angle")
+                raise ValueError(
+                    f"Bottom angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} less than top angle")
             cruise_conf_values = self._cruise_conf.split(',')
             # Note that HA seems to send this in as a float, so we need to convert to int just in case
             cruise_conf_values[2] = int(value)
-            self._send_command(CRUISECONF_KEY, ','.join(map(str, cruise_conf_values)))
+            self._send_command(CRUISECONF_KEY, ','.join(
+                map(str, cruise_conf_values)))
 
     @property
     def horizontal_osc_angle_right(self) -> int:
@@ -313,11 +321,13 @@ class PyDreoFan(PyDreoBaseDevice):
             left_angle = int(self._cruise_conf.split(",")[3])
             # 30 deg is the minimum top-bottom and left-right difference for the tested fan (DR-HAF003S)
             if value - left_angle < MIN_OSC_ANGLE_DIFFERENCE:
-                raise ValueError(f"Right angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} greater than left angle")
+                raise ValueError(
+                    f"Right angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} greater than left angle")
             cruise_conf_values = self._cruise_conf.split(',')
             # Note that HA seems to send this in as a float, so we need to convert to int just in case
             cruise_conf_values[1] = int(value)
-            self._send_command(CRUISECONF_KEY, ','.join(map(str, cruise_conf_values)))
+            self._send_command(CRUISECONF_KEY, ','.join(
+                map(str, cruise_conf_values)))
 
     @property
     def horizontal_osc_angle_left(self) -> int:
@@ -333,11 +343,13 @@ class PyDreoFan(PyDreoBaseDevice):
             right_angle = int(self._cruise_conf.split(",")[1])
             # 30 deg is the minimum top-bottom and left-right difference for the tested fan (DR-HAF003S)
             if right_angle - value < MIN_OSC_ANGLE_DIFFERENCE:
-                raise ValueError(f"Left angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} less than right angle")
+                raise ValueError(
+                    f"Left angle must be at least {MIN_OSC_ANGLE_DIFFERENCE} less than right angle")
             cruise_conf_values = self._cruise_conf.split(',')
             # Note that HA seems to send this in as a float, so we need to convert to int just in case
             cruise_conf_values[3] = int(value)
-            self._send_command(CRUISECONF_KEY, ','.join(map(str, cruise_conf_values)))
+            self._send_command(CRUISECONF_KEY, ','.join(
+                map(str, cruise_conf_values)))
 
     @property
     def display_auto_off(self) -> bool:
@@ -355,7 +367,8 @@ class PyDreoFan(PyDreoBaseDevice):
         if self._led_always_on is not None:
             self._send_command(LEDALWAYSON_KEY, not value)
         else:
-            _LOGGER.error("Attempting to set display always on on a device that doesn't support.")
+            _LOGGER.error(
+                "Attempting to set display always on on a device that doesn't support.")
             return
 
     @property
@@ -374,7 +387,8 @@ class PyDreoFan(PyDreoBaseDevice):
         if self._light_sensor_on is not None:
             self._send_command(LIGHTSENSORON_KEY, value)
         else:
-            _LOGGER.error("Attempting to set adaptive brightness on on a device that doesn't support.")
+            _LOGGER.error(
+                "Attempting to set adaptive brightness on on a device that doesn't support.")
             return
 
     @property
@@ -396,7 +410,8 @@ class PyDreoFan(PyDreoBaseDevice):
         elif self._mute_on is not None:
             self._send_command(MUTEON_KEY, not value)
         else:
-            _LOGGER.error("Attempting to set panel_sound on a device that doesn't support.")
+            _LOGGER.error(
+                "Attempting to set panel_sound on a device that doesn't support.")
             return
 
     @property
@@ -411,7 +426,8 @@ class PyDreoFan(PyDreoBaseDevice):
         _LOGGER.debug("PyDreoFan:horizontal_angle.setter")
         if (self._fixed_conf is not None):
             # Note that HA seems to send this in as a float, so we need to convert to int just in case
-            self._send_command(FIXEDCONF_KEY, f"{self._fixed_conf.split(',')[0]},{int(value)}")
+            self._send_command(
+                FIXEDCONF_KEY, f"{self._fixed_conf.split(',')[0]},{int(value)}")
 
     @property
     def vertical_angle(self) -> int:
@@ -425,7 +441,8 @@ class PyDreoFan(PyDreoBaseDevice):
         _LOGGER.debug("PyDreoFan:vertical_angle.setter")
         if self._fixed_conf is not None:
             # Note that HA seems to send this in as a float, we need to convert to int just in case
-            self._send_command(FIXEDCONF_KEY, f"{int(value)},{self._fixed_conf.split(',')[1]}")
+            self._send_command(
+                FIXEDCONF_KEY, f"{int(value)},{self._fixed_conf.split(',')[1]}")
 
     def update_state(self, state: dict):
         """Process the state dictionary from the REST API."""
@@ -434,18 +451,24 @@ class PyDreoFan(PyDreoBaseDevice):
 
         self._fan_speed = self.get_state_update_value(state, WINDLEVEL_KEY)
         if self._fan_speed is None:
-            _LOGGER.error("Unable to get fan speed from state. Check debug logs for more information.")
+            _LOGGER.error(
+                "Unable to get fan speed from state. Check debug logs for more information.")
 
         self._temperature = self.get_state_update_value(state, TEMPERATURE_KEY)
-        self._led_always_on = self.get_state_update_value(state, LEDALWAYSON_KEY)
+        self._led_always_on = self.get_state_update_value(
+            state, LEDALWAYSON_KEY)
         self._voice_on = self.get_state_update_value(state, VOICEON_KEY)
-        self._shakehorizon = self.get_state_update_value(state, SHAKEHORIZON_KEY)
+        self._shakehorizon = self.get_state_update_value(
+            state, SHAKEHORIZON_KEY)
         self._wind_type = self.get_state_update_value(state, WINDTYPE_KEY)
         self._wind_mode = self.get_state_update_value(state, WIND_MODE_KEY)
-        self._horizontally_oscillating = self.get_state_update_value(state, HORIZONTAL_OSCILLATION_KEY)
-        self._vertically_oscillating = self.get_state_update_value(state, VERTICAL_OSCILLATION_KEY)
+        self._horizontally_oscillating = self.get_state_update_value(
+            state, HORIZONTAL_OSCILLATION_KEY)
+        self._vertically_oscillating = self.get_state_update_value(
+            state, VERTICAL_OSCILLATION_KEY)
         self._osc_mode = self.get_state_update_value(state, OSCMODE_KEY)
-        self._light_sensor_on = self.get_state_update_value(state, LIGHTSENSORON_KEY)
+        self._light_sensor_on = self.get_state_update_value(
+            state, LIGHTSENSORON_KEY)
         self._mute_on = self.get_state_update_value(state, MUTEON_KEY)
         self._fixed_conf = self.get_state_update_value(state, FIXEDCONF_KEY)
         self._cruise_conf = self.get_state_update_value(state, CRUISECONF_KEY)
@@ -458,23 +481,28 @@ class PyDreoFan(PyDreoBaseDevice):
         if isinstance(val_power_on, bool):
             self._is_on = val_power_on
 
-        val_wind_level = self.get_server_update_key_value(message, WINDLEVEL_KEY)
+        val_wind_level = self.get_server_update_key_value(
+            message, WINDLEVEL_KEY)
         if isinstance(val_wind_level, int):
             self._fan_speed = val_wind_level
 
-        val_temperature = self.get_server_update_key_value(message, TEMPERATURE_KEY)
+        val_temperature = self.get_server_update_key_value(
+            message, TEMPERATURE_KEY)
         if isinstance(val_temperature, int):
             self._temperature = val_temperature
 
-        val_display_always_on = self.get_server_update_key_value(message, LEDALWAYSON_KEY)
+        val_display_always_on = self.get_server_update_key_value(
+            message, LEDALWAYSON_KEY)
         if isinstance(val_display_always_on, bool):
             self._led_always_on = val_display_always_on
 
-        val_panel_sound = self.get_server_update_key_value(message, VOICEON_KEY)
+        val_panel_sound = self.get_server_update_key_value(
+            message, VOICEON_KEY)
         if isinstance(val_panel_sound, bool):
             self._voice_on = val_panel_sound
 
-        val_wind_mode = self.get_server_update_key_value(message, WIND_MODE_KEY)
+        val_wind_mode = self.get_server_update_key_value(
+            message, WIND_MODE_KEY)
         if isinstance(val_wind_mode, int):
             self._wind_mode = val_wind_mode
 
@@ -482,15 +510,18 @@ class PyDreoFan(PyDreoBaseDevice):
         if isinstance(val_wind_type, int):
             self._wind_type = val_wind_type
 
-        val_shakehorizon = self.get_server_update_key_value(message, SHAKEHORIZON_KEY)
+        val_shakehorizon = self.get_server_update_key_value(
+            message, SHAKEHORIZON_KEY)
         if isinstance(val_shakehorizon, bool):
             self._shakehorizon = val_shakehorizon
 
-        val_horiz_oscillation = self.get_server_update_key_value(message, HORIZONTAL_OSCILLATION_KEY)
+        val_horiz_oscillation = self.get_server_update_key_value(
+            message, HORIZONTAL_OSCILLATION_KEY)
         if isinstance(val_horiz_oscillation, bool):
             self._horizontally_oscillating = val_horiz_oscillation
 
-        val_vert_oscillation = self.get_server_update_key_value(message, VERTICAL_OSCILLATION_KEY)
+        val_vert_oscillation = self.get_server_update_key_value(
+            message, VERTICAL_OSCILLATION_KEY)
         if isinstance(val_vert_oscillation, bool):
             self._vertically_oscillating = val_vert_oscillation
 
@@ -498,11 +529,13 @@ class PyDreoFan(PyDreoBaseDevice):
         if isinstance(val_osc_mode, int):
             self._osc_mode = val_osc_mode
 
-        val_cruiseconf = self.get_server_update_key_value(message, CRUISECONF_KEY)
+        val_cruiseconf = self.get_server_update_key_value(
+            message, CRUISECONF_KEY)
         if isinstance(val_cruiseconf, str):
             self._cruise_conf = val_cruiseconf
 
-        val_light_sensor = self.get_server_update_key_value(message, LIGHTSENSORON_KEY)
+        val_light_sensor = self.get_server_update_key_value(
+            message, LIGHTSENSORON_KEY)
         if isinstance(val_light_sensor, bool):
             self._light_sensor_on = val_light_sensor
 
@@ -510,6 +543,7 @@ class PyDreoFan(PyDreoBaseDevice):
         if isinstance(val_mute, bool):
             self._mute_on = val_mute
 
-        val_fixed_conf = self.get_server_update_key_value(message, FIXEDCONF_KEY)
+        val_fixed_conf = self.get_server_update_key_value(
+            message, FIXEDCONF_KEY)
         if isinstance(val_fixed_conf, str):
             self._fixed_conf = val_fixed_conf

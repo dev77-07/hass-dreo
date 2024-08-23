@@ -23,6 +23,7 @@ from .pydreo import (
     LEVEL_MODE_MAP,
     ECOLEVEL_RANGE,
     TEMP_RANGE,
+    TARGET_TEMP_RANGE_ECO,
     HUMIDITY_RANGE,
     ACMode
 )
@@ -186,10 +187,10 @@ class DreoHeaterHA(DreoBaseDeviceHA, ClimateEntity):
     def device_info(self) -> DeviceInfo:
         """Return device information for this heater."""
         return DeviceInfo(
-            identifiers={(DOMAIN, self.device.serialNumber)},
+            identifiers={(DOMAIN, self.device.serial_number)},
             manufacturer=self.device.brand,
-            model=f"{self.device.seriesName} ({self.device.model}) {self.device.productName}",
-            name=self.device.deviceName,
+            model=f"{self.device.series_name} ({self.device.model}) {self.device.product_name}",
+            name=self.device.device_name,
         )
 
     @property
@@ -389,6 +390,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
     _attr_temperature_unit = UnitOfTemperature.FAHRENHEIT  # TODO
     _attr_target_temperature = None
     _attr_current_temperature = None
+    _attr_target_humidity = None
     _attr_fan_mode = None
     _attr_fan_modes = [FAN_LOW, FAN_MEDIUM, FAN_HIGH, FAN_AUTO]
     _attr_name = None
@@ -415,6 +417,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
         self._attr_unique_id = f"{super().unique_id}-{self.device.device_id}"
         self._attr_target_temperature = self.device.target_temperature
         self._attr_current_temperature = self.device.temperature
+        self._attr_target_humidity = self.device.target_humidity
         self._attr_swing_mode = self.device.device_definition.swing_modes[0]
         self._attr_swing_modes = self.device.device_definition.swing_modes
         self._attr_hvac_mode = AC_MODE_MAP[self.device.mode] if self.device.poweron else HVACMode.OFF
@@ -441,10 +444,10 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
     def device_info(self) -> DeviceInfo:
         """Return device information for this air conditioner."""
         return DeviceInfo(
-            identifiers={(DOMAIN, self.device.serialNumber)},
+            identifiers={(DOMAIN, self.device.serial_number)},
             manufacturer=self.device.brand,
-            model=f"{self.device.seriesName} ({self.device.model}) {self.device.productName}",
-            name=self.device.deviceName,
+            model=f"{self.device.series_name} ({self.device.model}) {self.device.product_name}",
+            name=self.device.device_name,
         )
 
     @property
@@ -489,7 +492,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
         """Set the preset mode of the device."""
         _LOGGER.debug("DreoACHA:set_preset_mode(%s) --> %s", self.device.name, preset_mode)
         if preset_mode == PRESET_ECO:
-            self.device.mode = ACMode.Cool
+            self.device.mode = ACMode.COOL
             self.device.preset_mode = preset_mode
         else:
             self.device.preset_mode = PRESET_NONE
@@ -587,7 +590,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
     @property
     def target_temperature_low(self) -> float | None:
         if self.device.preset_mode == PRESET_ECO:
-            range_key = TEMP_RANGE_ECO
+            range_key = TARGET_TEMP_RANGE_ECO
         else:
             range_key = TEMP_RANGE
         return self.device.device_definition.range[range_key][0]
@@ -595,7 +598,7 @@ class DreoACHA(DreoBaseDeviceHA, ClimateEntity):
     @property
     def target_temperature_high(self) -> float | None:
         if self.device.preset_mode == PRESET_ECO:
-            range_key = TEMP_RANGE_ECO
+            range_key = TARGET_TEMP_RANGE_ECO
         else:
             range_key = TEMP_RANGE
         return self.device.device_definition.range[range_key][1]
