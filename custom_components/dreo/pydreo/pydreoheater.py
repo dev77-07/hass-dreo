@@ -23,14 +23,12 @@ from .constant import (
     CHILDLOCKON_KEY,
     TEMPOFFSET_KEY,
     FIXEDCONF_KEY,
-    MODE_LEVEL_MAP,
-    LEVEL_MODE_MAP,
     TemperatureUnit,
     HeaterOscillationAngle
 )
 
 from .pydreobasedevice import PyDreoBaseDevice
-from .models import DreoDeviceDetails, HEAT_RANGE, ECOLEVEL_RANGE
+from .models import DreoHeaterDeviceDetails
 
 _LOGGER = logging.getLogger(LOGGER_NAME)
 
@@ -41,9 +39,12 @@ if TYPE_CHECKING:
 class PyDreoHeater(PyDreoBaseDevice):
     """Base class for Dreo heater API Calls."""
 
-    def __init__(self, device_definition: DreoDeviceDetails, details: Dict[str, list], dreo: "PyDreo"):
+    def __init__(self, device_definition: DreoHeaterDeviceDetails, details: Dict[str, list], dreo: "PyDreo"):
         """Initialize heater devices."""
         super().__init__(device_definition, details, dreo)
+
+        self._heat_range = device_definition.heat_range
+        self._eco_level_range = device_definition.eco_level_range
 
         self._mode = None
         self._htalevel = None
@@ -84,12 +85,7 @@ class PyDreoHeater(PyDreoBaseDevice):
     @property
     def heat_range(self):
         """Get the heat range"""
-        return self._device_definition.range[HEAT_RANGE]
-
-    @property
-    def preset_modes(self):
-        """Get the list of preset modes"""
-        return self._device_definition.preset_modes
+        return self._heat_range
 
     @property
     def hvac_modes(self):
@@ -116,11 +112,11 @@ class PyDreoHeater(PyDreoBaseDevice):
         """Set the heat level."""
         _LOGGER.debug("PyDreoHeater:htalevel.setter(%s, %s)",
                       self.name, htalevel)
-        if (htalevel < self._device_definition.range[HEAT_RANGE][0] or
-            htalevel > self._device_definition.range[HEAT_RANGE][1]):
+        if (htalevel < self._heat_range[0] or
+            htalevel > self._heat_range[1]):
             _LOGGER.error("Heat level %s is not in the acceptable range: %s",
                           htalevel,
-                          self._device_definition.range[HEAT_RANGE])
+                          self._heat_range)
             return
         self.mode = HEATER_MODE_HOTAIR
         self._send_command(HTALEVEL_KEY, htalevel)
@@ -128,7 +124,7 @@ class PyDreoHeater(PyDreoBaseDevice):
     @property
     def ecolevel_range(self):
         """Get the ecolevel range"""
-        return self._device_definition.range[ECOLEVEL_RANGE]
+        return self._eco_level_range
 
     @property
     def ecolevel(self):
@@ -139,34 +135,17 @@ class PyDreoHeater(PyDreoBaseDevice):
     def ecolevel(self, ecolevel: int):
         """Set the target temperature."""
         _LOGGER.debug("PyDreoHeater:ecolevel(%s)", ecolevel)
-        if ecolevel < self._device_definition.range[ECOLEVEL_RANGE][0] or ecolevel > self._device_definition.range[ECOLEVEL_RANGE][1]:
+        if ecolevel < self._eco_level_range[0] or ecolevel > self._eco_level_range[1]:
             _LOGGER.error("Target Temperature %s is not in the acceptable range: %s",
                           ecolevel,
-                          self._device_definition.range[ECOLEVEL_RANGE])
+                          self._eco_level_range)
             return
         self._send_command(ECOLEVEL_KEY, ecolevel)
 
     @property
-    def preset_mode(self):
-        """Return the current preset mode."""
-        return LEVEL_MODE_MAP[self._htalevel]
-
-    @property
     def mode(self):
-        """Return the current preset mode."""
+        """Return the current mode."""
         return self._mode
-
-    @preset_mode.setter
-    def preset_mode(self, level: str) -> None:
-        """Set the preset mode"""
-        _LOGGER.debug("PyDreoHeater:set_preset_mode(%s)", level)
-        if level in self.preset_modes:
-            # Don't need self.mode = HEATER_MODE_HOTAIR because the htalevel setter will set the mode
-            self.htalevel = MODE_LEVEL_MAP[level]
-        else:
-            _LOGGER.error("Preset mode %s is not in the acceptable list: %s",
-                          level,
-                          self._device_definition.preset_modes)
 
     @mode.setter
     def mode(self, mode: str) -> None:

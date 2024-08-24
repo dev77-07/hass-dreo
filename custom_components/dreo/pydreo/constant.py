@@ -149,18 +149,6 @@ class HVACMode(StrEnum):
     DRY = "dry"
     ECO = "eco"
     FAN_ONLY = "fan_only"
-    
-MODE_LEVEL_MAP = {
-    "H1" : 1,
-    "H2" : 2,
-    "H3" : 3
-}
-
-LEVEL_MODE_MAP = {
-    1 : "H1",
-    2 : "H2",
-    3 : "H3"
-}
 
 AC_ECO_LEVEL_MAP = {
     1 : "10%",
@@ -182,8 +170,6 @@ OSCILLATION_ANGLE_KEY = "oscangle"
 
 WIND_MODE_KEY = "mode"
 
-SPEED_RANGE = "speed_range"
-HEAT_RANGE = "heat_range"
 ECOLEVEL_RANGE = "ecolevel_range"
 TEMP_RANGE = "temp_range"
 TARGET_TEMP_RANGE = "target_temp_range"

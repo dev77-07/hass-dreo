@@ -15,6 +15,7 @@ from .pydreo import (
     PyDreo,
     PyDreoHeater,
     PyDreoAC,
+    Helpers,
     HEATER_MODE_OFF,
     HEATER_MODE_COOLAIR,
     HEATER_MODE_HOTAIR,
@@ -170,7 +171,13 @@ class DreoHeaterHA(DreoBaseDeviceHA, ClimateEntity):
         self._attr_swing_mode = self.device.device_definition.swing_modes[0]
         self._attr_swing_modes = self.device.device_definition.swing_modes
         self._attr_hvac_mode = HEATER_MODE_MAP[self.device.mode] if self.device.poweron else HVACMode.OFF
-        self._attr_preset_modes = pyDreoDevice.heat_levels #FIX THIS TO CONVERT TO STRINGS H1, H2, H3
+
+        self._heat_preset_modes = []
+        for heat_level in range(pyDreoDevice.heat_range[0], pyDreoDevice.heat_range[1] + 1):
+            self._heat_preset_modes.append(("H" + heat_level, heat_level))
+        # Is this needed as well as the member function?
+        self._attr_preset_modes = Helpers.get_name_list(self._heat_preset_modes)
+
         self._attr_hvac_modes = [HEATER_MODE_MAP[h]
                                  for h in self.device.device_definition.hvac_modes]
 
@@ -225,7 +232,7 @@ class DreoHeaterHA(DreoBaseDeviceHA, ClimateEntity):
     @property
     def preset_modes(self) -> list[str]:
         """Get the list of available preset modes."""
-        return self.device.preset_modes
+        return Helpers.get_name_list(self._heat_preset_modes)
 
     @property
     def preset_mode(self) -> str | None:
@@ -284,8 +291,8 @@ class DreoHeaterHA(DreoBaseDeviceHA, ClimateEntity):
             raise ValueError(
                 f"{preset_mode} is not one of the valid preset modes: {self.preset_modes}")
 
-        self.device.preset_mode = preset_mode
-        self.device.htalevel = MODE_LEVEL_MAP[preset_mode]
+        # Preset mode for a heater maps to heat level.
+        self.device.htalevel =  Helpers.value_from_name(self._heat_preset_modes, preset_mode)
         self.device.mode = HEATER_MODE_HOTAIR
 
     @oscon.setter

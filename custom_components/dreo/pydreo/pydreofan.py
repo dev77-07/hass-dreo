@@ -28,7 +28,8 @@ from .constant import (
 )
 
 from .pydreobasedevice import PyDreoBaseDevice
-from .models import DreoDeviceDetails, SPEED_RANGE
+from .models import DreoFanDeviceDetails
+from .helpers import Helpers
 
 _LOGGER = logging.getLogger(LOGGER_NAME)
 
@@ -39,35 +40,16 @@ if TYPE_CHECKING:
 class PyDreoFan(PyDreoBaseDevice):
     """Base class for Dreo Fan API Calls."""
 
-    def __init__(self, device_definition: DreoDeviceDetails, details: Dict[str, list], dreo: "PyDreo"):
+    def __init__(self, device_definition: DreoFanDeviceDetails, details: Dict[str, list], dreo: "PyDreo"):
         """Initialize air devices."""
         super().__init__(device_definition, details, dreo)
 
-        self._speed_range = None
-        self._preset_modes = None
-
-        # Attempt to auto-detect the fan speed range
-        controlsConf = details.get("controlsConf", None)
-        if controlsConf is not None:
-            control = controlsConf.get("control", None)
-            if (control is not None):
-                for controlItem in control:
-                    if (controlItem is not None):
-                        if controlItem.get("type", None) == "Speed":
-                            print (controlItem)
-                            lowSpeed = controlItem.get("items", None)[0].get("value", None)
-                            highSpeed = controlItem.get("items", None)[1].get("value", None)
-                            print ( [lowSpeed, highSpeed] )
-                            self._speed_range = [lowSpeed, highSpeed]
-                            # TODO FIX LOGGING HERE
-                        if controlItem.get("type", None) == "Mode":
-                            self._preset_modes = [ None for _ in range(len(controlItem.get("items", None))) ]
-                            for modeItem in controlItem.get("items", None):
-                                text = modeItem.get("image", None).split("_")[1]
-                                value = modeItem.get("value", None)
-                                self._preset_modes[value-1] = text
-                            print (self._preset_modes)
-                            
+        self._speed_range = device_definition.speed_range
+        if (self._speed_range is None):
+            self._speed_range = self.parse_speed_range(details)
+        self._preset_modes = device_definition.preset_modes
+        if (self._preset_modes is None):
+            self._preset_modes = self.parse_preset_modes(details)
 
         self._fan_speed = None
 
@@ -89,6 +71,38 @@ class PyDreoFan(PyDreoBaseDevice):
 
         self._fixed_conf = None
 
+    def parse_speed_range(self, details: Dict[str, list]) -> tuple[int, int]:
+        """Parse the speed range from the details."""
+        controls_conf = details.get("controlsConf", None)
+        if controls_conf is not None:
+            control = controls_conf.get("control", None)
+            if (control is not None):
+                for control_item in control:
+                    if (control_item is not None):
+                        if control_item.get("type", None) == "Speed":
+                            lowSpeed = control_item.get("items", None)[0].get("value", None)
+                            highSpeed = control_item.get("items", None)[1].get("value", None)
+                            speed_range = [lowSpeed, highSpeed]
+                            _LOGGER.debug("PyDreoFan:Detected speed range - %s", speed_range)
+                            return speed_range
+
+    def parse_preset_modes(self, details: Dict[str, list]) -> tuple[str, int]:
+        """Parse the preset modes from the details."""
+        controls_conf = details.get("controlsConf", None)
+        if controls_conf is not None:
+            control = controls_conf.get("control", None)
+            if (control is not None):
+                for control_item in control:
+                    if (control_item is not None):
+                        if control_item.get("type", None) == "Mode":
+                            preset_modes = []
+                            for mode_item in control_item.get("items", None):
+                                text = mode_item.get("image", None).split("_")[1]
+                                value = mode_item.get("value", None)
+                                preset_modes.append((text, value))
+                                _LOGGER.debug("PyDreoFan:Detected preset modes - %s", preset_modes)
+                            return preset_modes
+
     def __repr__(self):
         # Representation string of object.
         return "<{0}:{1}:{2}>".format(
@@ -101,9 +115,9 @@ class PyDreoFan(PyDreoBaseDevice):
         return self._speed_range
 
     @property
-    def preset_modes(self):
+    def preset_modes(self) -> list[str]:
         """Get the list of preset modes"""
-        return self._preset_modes
+        return Helpers.get_name_list(self._preset_modes)
 
     @property
     def is_on(self):

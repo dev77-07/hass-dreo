@@ -4,9 +4,6 @@ from dataclasses import dataclass
 from .constant import (
     PresetFanMode,
     PresetHeaterMode,
-    SPEED_RANGE,
-    HEAT_RANGE,
-    ECOLEVEL_RANGE,
     TEMP_RANGE,
     TARGET_TEMP_RANGE,
     TARGET_TEMP_RANGE_ECO,
@@ -54,223 +51,80 @@ class DreoFanDeviceDetails(DreoDeviceDetails):
     """Represents a Dreo fan device model and capabilities"""
 
     def __init__(self,
-                 preset_modes: list[PresetFanMode],
+                 preset_modes: list[PresetFanMode] = None,
+                 speed_range: tuple[int, int] = None,
                  device_ranges: dict = None,
                  hvac_modes: list[HVACMode] = None,
                  swing_modes: list[str] = None,
                  fan_modes: list[str] = None):
         super().__init__(preset_modes, device_ranges, hvac_modes, swing_modes, fan_modes)
+        self.speed_range = speed_range
 
+@dataclass
+class DreoHeaterDeviceDetails(DreoDeviceDetails):
+    """Represents a Dreo heater device model and capabilities"""
+
+    def __init__(self,
+                 preset_modes: list[PresetFanMode] = None,
+                 heat_range: tuple[int, int] = None,
+                 eco_level_range: tuple[int, int] = None,
+                 hvac_modes: list[HVACMode] = None,
+                 swing_modes: list[str] = None,
+                 fan_modes: list[str] = None):
+        super().__init__(preset_modes, None, hvac_modes, swing_modes, fan_modes)
+        self.heat_range = heat_range
+        self.eco_level_range = eco_level_range
+
+@dataclass
+class DreoACDeviceDetails(DreoDeviceDetails):
+    """Represents a Dreo air conditioner device model and capabilities"""
+
+    def __init__(self,
+                 preset_modes: list[PresetFanMode] = None,
+                 speed_range: tuple[int, int] = None,
+                 device_ranges: dict = None,
+                 hvac_modes: list[HVACMode] = None,
+                 swing_modes: list[str] = None,
+                 fan_modes: list[str] = None):
+        super().__init__(preset_modes, device_ranges, hvac_modes, swing_modes, fan_modes)
+        self.speed_range = speed_range
+
+# Supported prefixes.
+# These prefixes will be listed along with the models in the below collections.
+SUPPORTED_MODEL_PREFIXES = {
+    "DR-HTF",
+    "DR-HAF",
+    "DR-HPF",
+    "DR-HCF",
+    "DR-HSH",
+    "WH", 
+    "DR-HAC"
+}
 
 SUPPORTED_FANS = {
-    "DR-HAF001S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL, 
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HAF003S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HAF004S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HPF002S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HPF004S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HPF005S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL, 
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HTF001S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF002S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL, 
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF004S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF005S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF007S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF008S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF009S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HTF010S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HAF002S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    ),
-    "DR-HAF005S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HAF006S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HPF001S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HPF003S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO,
-                      PresetFanMode.TURBO]
-    ),
-    "DR-HCF002S": DreoFanDeviceDetails(
-        preset_modes=[PresetFanMode.NORMAL,
-                      PresetFanMode.NATURAL,
-                      PresetFanMode.SLEEP,
-                      PresetFanMode.AUTO]
-    )
+    "DR-HTF": DreoFanDeviceDetails(),
+    "DR-HAF": DreoFanDeviceDetails(),
+    "DR-HPF": DreoFanDeviceDetails(),
+    "DR-HCF": DreoFanDeviceDetails()
 }
 
 
 SUPPORTED_HEATERS = {
-    "DR-HSH004S": DreoDeviceDetails(
-        preset_modes=[PresetHeaterMode.H1,
-                      PresetHeaterMode.H2,
-                      PresetHeaterMode.H3],
-        device_ranges={
-            HEAT_RANGE: (1, 3),
-            ECOLEVEL_RANGE: (41, 85)
-        },
+    "DR-HSH": DreoHeaterDeviceDetails(
+        heat_range = (1, 3),
+        eco_level_range = (41, 85),
         hvac_modes=[HVACMode.COOL, 
                     HVACMode.HEAT,
                     HVACMode.ECO, 
                     HVACMode.OFF],
         swing_modes=[SWING_OFF, SWING_ON]
     ),
-    "DR-HSH009S": DreoDeviceDetails(
-        preset_modes=[PresetHeaterMode.H1,
-                      PresetHeaterMode.H2,
-                      PresetHeaterMode.H3],
-        device_ranges={
-            HEAT_RANGE: (1, 3),
-            ECOLEVEL_RANGE: (41, 95)
-        },
-        hvac_modes=[HVACMode.COOL, 
-                    HVACMode.HEAT,
-                    HVACMode.ECO, 
-                    HVACMode.OFF],
-        swing_modes=[HeaterOscillationAngle.OSC,
-                     HeaterOscillationAngle.SIXTY,
-                     HeaterOscillationAngle.NINETY,
-                     HeaterOscillationAngle.ONE_TWENTY]
-    ),
-    "DR-HSH009AS": DreoDeviceDetails(
-        preset_modes=[PresetHeaterMode.H1,
-                      PresetHeaterMode.H2,
-                      PresetHeaterMode.H3],
-        device_ranges={
-            HEAT_RANGE: (1, 3),
-            ECOLEVEL_RANGE: (41, 95)
-        },
-        hvac_modes=[HVACMode.COOL, 
-                    HVACMode.HEAT,
-                    HVACMode.ECO, 
-                    HVACMode.OFF],
-        swing_modes=[HeaterOscillationAngle.OSC,
-                     HeaterOscillationAngle.SIXTY,
-                     HeaterOscillationAngle.NINETY,
-                     HeaterOscillationAngle.ONE_TWENTY]
-    ),
-    "WH719S": DreoDeviceDetails(
-        preset_modes=[PresetHeaterMode.H1,
-                      PresetHeaterMode.H2,
-                      PresetHeaterMode.H3],
-        device_ranges={
-            HEAT_RANGE: (1, 3),
-            ECOLEVEL_RANGE: (41, 95)
-        },
+    "WH": DreoHeaterDeviceDetails(
+        heat_range = (1, 3),
+        eco_level_range = (41, 95),
         hvac_modes=[HVACMode.COOL,
                     HVACMode.HEAT,
                     HVACMode.ECO,
-                    HVACMode.OFF],
-        swing_modes=[HeaterOscillationAngle.OSC,
-                     HeaterOscillationAngle.SIXTY,
-                     HeaterOscillationAngle.NINETY,
-                     HeaterOscillationAngle.ONE_TWENTY]
-    ),
-    "WH739S": DreoDeviceDetails(
-        preset_modes=[PresetHeaterMode.H1,
-                      PresetHeaterMode.H2,
-                      PresetHeaterMode.H3],
-        device_ranges={
-            HEAT_RANGE: (1, 3),
-            ECOLEVEL_RANGE: (41, 95)
-        },
-        hvac_modes=[HVACMode.COOL,
-                    HVACMode.HEAT,
-                    HVACMode.ECO, 
                     HVACMode.OFF],
         swing_modes=[HeaterOscillationAngle.OSC,
                      HeaterOscillationAngle.SIXTY,

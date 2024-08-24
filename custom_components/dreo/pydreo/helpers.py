@@ -178,3 +178,24 @@ class Helpers:
     def api_timestamp() -> str:
         """Timestamp in correct format for API calls"""
         return str(int(time.time() * 1000))
+
+    @staticmethod
+    def name_from_value(name_value_list : list[tuple], value) -> str:
+        """Return name from list of tuples."""
+        for name, val in name_value_list:
+            if val == value:
+                return name
+        return None
+    
+    @staticmethod
+    def value_from_name(name_value_list : list[tuple], name) -> any:
+        """Return value from list of tuples."""
+        for n, val in name_value_list:
+            if n == name:
+                return val
+        return None
+
+    @staticmethod
+    def get_name_list(name_value_list : list[tuple]) -> list[str]:
+        """Return list of names from list of tuples."""
+        return [name for name, _ in name_value_list]
