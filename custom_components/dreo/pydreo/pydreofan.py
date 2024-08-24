@@ -100,7 +100,7 @@ class PyDreoFan(PyDreoBaseDevice):
                                 text = mode_item.get("image", None).split("_")[1]
                                 value = mode_item.get("value", None)
                                 preset_modes.append((text, value))
-                                _LOGGER.debug("PyDreoFan:Detected preset modes - %s", preset_modes)
+                            _LOGGER.debug("PyDreoFan:Detected preset modes - %s", preset_modes)
                             return preset_modes
 
     def __repr__(self):
